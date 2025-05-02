@@ -19,5 +19,11 @@ module.exports = {
     quotes: "off",
     // Permite saltos de línea en formato CRLF
     "linebreak-style": ["error", "windows"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: true,
+      },
+    ],
   },
 };

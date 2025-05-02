@@ -1,15 +1,5 @@
+const { generateManyBook } = require("../fake/book.fake");
 const BooksService = require("./books.service");
-
-const fakeBooks = [
-  {
-    _id: "1",
-    name: "Book 1",
-  },
-  {
-    _id: "2",
-    name: "Book 2",
-  },
-];
 
 const mockGetAll = jest.fn(() => Promise.resolve(fakeBooks));
 
@@ -30,13 +20,14 @@ describe("Test for Books Service", () => {
   describe("Test fot getBooks method", () => {
     test("should return a list book", async () => {
       // Arrange
+      const fakeBooks = generateManyBook(20);
       mockGetAll.mockResolvedValue(fakeBooks);
       // Act
       const books = await service.getBooks({});
       // eslint-disable-next-line no-console
       console.log(books);
       // Assert
-      expect(books.length).toEqual(2);
+      expect(books.length).toEqual(fakeBooks.length);
       expect(mockGetAll).toHaveBeenCalled();
       expect(mockGetAll).toHaveBeenCalledTimes(1);
       expect(mockGetAll).toHaveBeenCalledWith("books", {});
@@ -44,22 +35,14 @@ describe("Test for Books Service", () => {
   });
   test("should return a list book", async () => {
     // Arrange
-    mockGetAll.mockResolvedValue([
-      {
-        _id: "1",
-        name: "Book 1",
-      },
-      {
-        _id: "2",
-        name: "Book 2",
-      },
-    ]);
+    const fakeBooks = generateManyBook(10);
+    mockGetAll.mockResolvedValue(fakeBooks);
     // Act
     const books = await service.getBooks({});
     // eslint-disable-next-line no-console
     console.log(books);
     // Assert
-    expect(books[0].name).toEqual("Book 1");
+    expect(books[0].name).toEqual(fakeBooks[0].name);
     expect(mockGetAll).toHaveBeenCalled();
     expect(mockGetAll).toHaveBeenCalledTimes(1);
     expect(mockGetAll).toHaveBeenCalledWith("books", {});
